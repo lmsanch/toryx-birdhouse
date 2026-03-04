@@ -53,6 +53,23 @@ bodyClass: bg-base-200
       <main class="flex-1 p-6 md:p-10 bg-base-100">
         <div class="prose prose-invert max-w-none">
           {{ content }}
+
+          {{ set prevPage = nav.previousPage(url) }}
+          {{ set nextPage = nav.nextPage(url) }}
+          {{ set hasPrev = prevPage && prevPage.url.startsWith("/docs/") }}
+          {{ set hasNext = nextPage && nextPage.url.startsWith("/docs/") }}
+          {{ if hasPrev || hasNext }}
+          <nav class="flex justify-between mt-12 pt-6 border-t border-base-300 not-prose">
+            {{ if hasPrev }}
+              <a href="{{ prevPage.url }}" class="btn btn-ghost">&larr; {{ prevPage.title }}</a>
+            {{ else }}
+              <span></span>
+            {{ /if }}
+            {{ if hasNext }}
+              <a href="{{ nextPage.url }}" class="btn btn-ghost">{{ nextPage.title }} &rarr;</a>
+            {{ /if }}
+          </nav>
+          {{ /if }}
         </div>
       </main>
     </div>
