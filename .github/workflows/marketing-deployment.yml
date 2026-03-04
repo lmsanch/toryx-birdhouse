@@ -19,7 +19,7 @@ jobs:
       - uses: denoland/setup-deno@v2
         with:
           deno-version-file: ./projects/marketing/.tool-versions
-      - name: Build
+      - name: Build marketing site
         run: cd projects/marketing && deno install --allow-scripts --allow-import && deno task lume
       - name: Deploy
         uses: cloudflare/wrangler-action@v3

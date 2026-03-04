@@ -147,7 +147,9 @@ function initTelemetryMetrics() {
           duration: 2,
           ease: "power2.out",
           onUpdate: () => {
-            agentsEl.textContent = formatMetricNumber(Math.round(agentsObj.value));
+            agentsEl.textContent = formatMetricNumber(
+              Math.round(agentsObj.value),
+            );
           },
         });
 
@@ -156,7 +158,9 @@ function initTelemetryMetrics() {
           duration: 2,
           ease: "power2.out",
           onUpdate: () => {
-            tokensEl.textContent = formatMetricNumber(Math.round(tokensObj.value));
+            tokensEl.textContent = formatMetricNumber(
+              Math.round(tokensObj.value),
+            );
           },
         });
       })
