@@ -1,6 +1,9 @@
 ---
 title: Guides
 description: In-depth guides for Birdhouse features.
+metas:
+  title: Guides | Birdhouse Docs
+  description: In-depth guides for Birdhouse features including agent teams, the agent tree, and reusable workflow patterns.
 ---
 
 # Guides

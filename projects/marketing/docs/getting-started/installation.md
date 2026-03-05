@@ -1,6 +1,9 @@
 ---
 title: Installation
 description: How to install Birdhouse.
+metas:
+  title: Installation | Birdhouse Docs
+  description: How to install Birdhouse. Step-by-step instructions for setting up the AI agent orchestration platform on your system.
 ---
 
 # Installation

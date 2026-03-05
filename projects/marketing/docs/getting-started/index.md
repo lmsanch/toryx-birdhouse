@@ -1,6 +1,9 @@
 ---
 title: Getting Started
 description: Get up and running with Birdhouse.
+metas:
+  title: Getting Started | Birdhouse Docs
+  description: Get up and running with Birdhouse. Learn how to install and start using AI agent teams to build software.
 ---
 
 # Getting Started

@@ -1,6 +1,9 @@
 ---
 title: Agent Tree
 description: Navigating and managing the agent tree.
+metas:
+  title: Agent Tree | Birdhouse Docs
+  description: Navigate and manage the agent tree in Birdhouse. Browse agent sessions, view team structure, and monitor agent progress.
 ---
 
 # Agent Tree

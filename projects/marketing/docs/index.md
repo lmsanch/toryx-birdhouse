@@ -1,6 +1,9 @@
 ---
 title: Welcome
 description: Welcome to the Birdhouse documentation.
+metas:
+  title: Birdhouse Docs | AI Agent Orchestration Platform
+  description: Documentation for Birdhouse, the AI agent orchestration platform where multi-agent teams actively communicate and collaborate to build software.
 ---
 
 # Welcome to Birdhouse

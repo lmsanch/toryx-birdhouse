@@ -1,6 +1,9 @@
 ---
 title: Agent Teams
 description: Working with multi-agent teams.
+metas:
+  title: Agent Teams | Birdhouse Docs
+  description: Learn how to work with multi-agent teams in Birdhouse. Create teams of AI agents that actively communicate and collaborate to build software.
 ---
 
 # Agent Teams

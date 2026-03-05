@@ -1,6 +1,9 @@
 ---
 title: Quick Start
 description: Start using Birdhouse in minutes.
+metas:
+  title: Quick Start | Birdhouse Docs
+  description: Start using Birdhouse in minutes. Create your first AI agent team and begin building software with collaborative agents.
 ---
 
 # Quick Start

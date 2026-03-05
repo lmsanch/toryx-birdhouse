@@ -13,6 +13,7 @@ import metas from "lume/plugins/metas.ts";
 import nav from "lume/plugins/nav.ts";
 import transformImages from "lume/plugins/transform_images.ts";
 import pagefind from "lume/plugins/pagefind.ts";
+import toc from "lume_markdown_plugins/toc.ts";
 
 const site = lume({
   location: new URL(Deno.env.get("HOST")),
@@ -40,6 +41,7 @@ site.use(pagefind({
     resetStyles: false,
   },
 }));
+site.use(toc({ level: 2 }));
 site.use(transformImages(/* Options */));
 site.add("assets");
 site.add("favicon.ico");

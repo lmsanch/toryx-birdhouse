@@ -1,4 +1,3 @@
-import Lenis from "lenis";
 import lucide from "lucide";
 import { themeChange } from "theme-change";
 import { gsap } from "gsap";
@@ -37,31 +36,16 @@ const supabaseClient = supabase.createClient(
 
 lucide.createIcons();
 
-// Initialize Lenis for smooth scrolling
-const lenis = new Lenis({
-  autoRaf: true,
-  anchors: true,
+// Handle scroll events for header state
+window.addEventListener("scroll", () => {
+  const header = document.querySelector("#nav");
+  header.setAttribute("data-scrolling", window.scrollY > 1 ? "true" : "false");
 });
 
-if (lenis && lenis.targetScroll > 1) {
-  const header = document.querySelector("#nav");
-  header.setAttribute("data-scrolling", "true");
+// Set initial scroll state
+if (window.scrollY > 1) {
+  document.querySelector("#nav")?.setAttribute("data-scrolling", "true");
 }
-
-// Handle scroll events (optional - for logging or analytics)
-lenis.on("scroll", (e) => {
-  const header = document.querySelector("#nav");
-  if (e.progress > 0.01) {
-    header.setAttribute("data-scrolling", "true");
-  } else {
-    header.setAttribute("data-scrolling", "false");
-  }
-});
-
-// Cleanup on page unload
-window.addEventListener("beforeunload", () => {
-  lenis.destroy();
-});
 
 const speed = 50; // Pixels per second
 

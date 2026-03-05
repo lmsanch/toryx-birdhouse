@@ -1,6 +1,9 @@
 ---
 title: Patterns
 description: Saving and reusing workflow patterns.
+metas:
+  title: Patterns | Birdhouse Docs
+  description: Save and reuse workflow patterns in Birdhouse. Turn your favourite prompts into reusable patterns to work faster with AI agent teams.
 ---
 
 # Patterns

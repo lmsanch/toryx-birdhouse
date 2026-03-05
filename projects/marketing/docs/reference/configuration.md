@@ -1,6 +1,9 @@
 ---
 title: Configuration
 description: Configuration reference for Birdhouse.
+metas:
+  title: Configuration | Birdhouse Docs
+  description: Configuration reference for Birdhouse. Learn how to configure agents, teams, providers, and platform settings.
 ---
 
 # Configuration
