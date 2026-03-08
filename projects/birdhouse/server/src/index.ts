@@ -1,7 +1,7 @@
 // ABOUTME: Main server entry point for Birdhouse server
 // ABOUTME: Sets up Hono app with workspace middleware, Pino logging, and routes
 
-import { cpSync, existsSync } from "node:fs";
+import { existsSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { Hono } from "hono";
 import { serveStatic } from "hono/bun";
@@ -9,6 +9,7 @@ import { cors } from "hono/cors";
 import { pinoLogger } from "hono-pino";
 import { createPosthogDeps, withDeps } from "./dependencies";
 import { DATA_DIR, getDataDB, initDataDB } from "./lib/data-db";
+import { syncDevPluginSource } from "./lib/dev-plugin-sync";
 import { log, rootLogger } from "./lib/logger";
 import { OpenCodeManager } from "./lib/opencode-manager";
 import { initPatternGroupsPersistence } from "./lib/pattern-groups-db";
@@ -55,10 +56,14 @@ if (!isDevMode && !process.env.BIRDHOUSE_OPENCODE_BIN) {
 }
 
 if (isDevMode) {
-  const opencodeIndexPath = join(process.env.OPENCODE_PATH!, "packages", "opencode", "src", "index.ts");
+  const opencodePath = process.env.OPENCODE_PATH;
+  if (!opencodePath) {
+    throw new Error("OPENCODE_PATH is required in dev mode");
+  }
+  const opencodeIndexPath = join(opencodePath, "packages", "opencode", "src", "index.ts");
   if (!existsSync(opencodeIndexPath)) {
     console.error(`❌ OPENCODE_PATH is set but does not look like a valid OpenCode repository:`);
-    console.error(`   ${process.env.OPENCODE_PATH}`);
+    console.error(`   ${opencodePath}`);
     console.error("");
     console.error("  Expected to find: packages/opencode/src/index.ts");
     console.error("");
@@ -104,12 +109,7 @@ log.server.info({ seeded, updated }, "Birdhouse patterns seeded");
 // Production mode uses compiled binary which has plugin embedded
 if (process.env.OPENCODE_PATH) {
   const pluginSource = resolve(__dirname, "..", "..", "..", "birdhouse-oc-plugin", "src", "plugin.ts");
-  const pluginDest = join(process.env.OPENCODE_PATH, "packages", "opencode", "src", "plugin", "birdhouse.ts");
-
-  if (!existsSync(pluginDest)) {
-    log.server.info("Dev mode: Copying plugin source to OpenCode for running from source");
-    cpSync(pluginSource, pluginDest);
-  }
+  syncDevPluginSource(pluginSource, process.env.OPENCODE_PATH);
 }
 
 // Validate existing OpenCode instances from database
