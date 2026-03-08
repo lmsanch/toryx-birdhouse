@@ -2,7 +2,7 @@
 // ABOUTME: Find-or-create pattern for messages and blocks with stable part IDs
 
 import type { SetStoreFunction } from "solid-js/store";
-import { reconcile } from "solid-js/store";
+import { produce, reconcile } from "solid-js/store";
 import { log } from "../lib/logger";
 import type { ContentBlock, Message } from "../types/messages";
 
@@ -150,6 +150,62 @@ function extractTextContent(blocks: ContentBlock[]): string {
     .filter((block) => block.type === "text")
     .map((block) => block.content)
     .join("\n\n");
+}
+
+/**
+ * Incremental delta from OpenCode's message.part.delta event
+ * Emitted during streaming to append text/reasoning content character by character
+ */
+export interface StreamingPartDelta {
+  sessionID: string;
+  messageID: string;
+  partID: string;
+  field: string; // "text" for text/reasoning parts
+  delta: string;
+}
+
+/**
+ * Apply an incremental text delta to an existing block.
+ * Only handles "text" field deltas — other fields are no-ops.
+ * Silently no-ops when message or block don't exist yet.
+ */
+export function handlePartDelta(
+  delta: StreamingPartDelta,
+  messages: Message[],
+  setMessages: SetStoreFunction<Message[]>,
+): void {
+  // Only handle text field deltas — other fields don't need incremental UI updates
+  if (delta.field !== "text") return;
+
+  const msgIndex = messages.findIndex((m) => m.id === delta.messageID);
+  if (msgIndex === -1) return;
+
+  const message = messages[msgIndex];
+  if (!message) return;
+
+  const blockIndex = message.blocks?.findIndex((b) => b.id === delta.partID);
+  if (blockIndex === undefined || blockIndex === -1) {
+    // Block hasn't been created yet via message.part.updated — drop this delta.
+    // The subsequent message.part.updated will set the final text content.
+    return;
+  }
+
+  const block = message.blocks?.[blockIndex];
+  if (!block || (block.type !== "text" && block.type !== "reasoning")) return;
+
+  // Use produce to mutate through the union type — the deep path setter
+  // can't resolve "content" as valid across all ContentBlock variants
+  setMessages(
+    produce((draft) => {
+      const draftBlock = draft[msgIndex]?.blocks?.[blockIndex];
+      if (!draftBlock || (draftBlock.type !== "text" && draftBlock.type !== "reasoning")) return;
+      draftBlock.content = (draftBlock.content ?? "") + delta.delta;
+
+      // Keep message-level content field in sync
+      const msg = draft[msgIndex];
+      if (msg) msg.content = (msg.content ?? "") + delta.delta;
+    }),
+  );
 }
 
 /**
