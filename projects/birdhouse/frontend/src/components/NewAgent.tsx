@@ -113,6 +113,13 @@ const NewAgent: Component = () => {
   });
   const renderModelOption = createMemo(() => makeModelRenderOption(modelMap()));
 
+  // Display value shown in the closed combobox input (includes provider name for disambiguation)
+  const modelDisplayValue = createMemo(() => {
+    const model = modelMap().get(selectedModelId());
+    if (!model) return undefined;
+    return `${model.provider} / ${model.name}`;
+  });
+
   // Set default model once models load
   createEffect(() => {
     const modelList = models();
@@ -209,6 +216,7 @@ const NewAgent: Component = () => {
             onSelect={setSelectedModelId}
             placeholder={models.loading ? "Loading models..." : "Select a model..."}
             renderOption={renderModelOption()}
+            displayValue={modelDisplayValue()}
           />
         </div>
 
