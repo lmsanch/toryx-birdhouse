@@ -36,6 +36,7 @@ export interface ProviderCredentials {
   deepinfra?: { api_key: string };
   cerebras?: { api_key: string };
   together?: { api_key: string };
+  toryx?: { api_key: string };
 
   // Tier 2: Complex multi-key providers
   aws?: {
@@ -144,6 +145,9 @@ export function providersToEnv(providers: ProviderCredentials): Record<string, s
   }
   if (providers.together?.api_key) {
     env.TOGETHER_API_KEY = providers.together.api_key;
+  }
+  if (providers.toryx?.api_key) {
+    env.TORYX_API_KEY = providers.toryx.api_key;
   }
 
   // Tier 2: Complex multi-key providers

@@ -67,6 +67,7 @@ describe("providersToEnv", () => {
       deepinfra: { api_key: "di-stu" },
       cerebras: { api_key: "cerebras-vwx" },
       together: { api_key: "together-yz" },
+      toryx: { api_key: "txk-test-123" },
     };
 
     const env = providersToEnv(providers);
@@ -83,6 +84,7 @@ describe("providersToEnv", () => {
     expect(env.DEEPINFRA_API_KEY).toBe("di-stu");
     expect(env.CEREBRAS_API_KEY).toBe("cerebras-vwx");
     expect(env.TOGETHER_API_KEY).toBe("together-yz");
+    expect(env.TORYX_API_KEY).toBe("txk-test-123");
   });
 
   test("maps AWS provider correctly", () => {
